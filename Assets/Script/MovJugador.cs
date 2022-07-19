@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovJugador : MonoBehaviour
 {
-        public float speed = 5f;
+        public float speed = 10f;
         public float speedRotation = 50f;
         private float MovHorizontal;
         private float MovVertical;
