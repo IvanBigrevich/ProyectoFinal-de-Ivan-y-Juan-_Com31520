@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovEnemigo : MonoBehaviour
-{
+{   
+    float timeAtack = 5f;
+    float timeResetAtack;
     float tiempo = 10f;
     float tiempoPatrullaje;
     private float enemySpeed = 8f;
@@ -13,6 +15,7 @@ public class MovEnemigo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResetAtack();
         RutaEnemigo();
         ResetearTiempoPatrulla();
     }
@@ -68,13 +71,40 @@ public class MovEnemigo : MonoBehaviour
     {
         float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
 
-        if (distanciaJugador <= 20)
+        if (distanciaJugador <= 15)
         {
-            animacion.SetBool("isRun", true);
             transform.position = Vector3.MoveTowards(transform.position, posJugador.position, enemySpeed * Time.deltaTime);
+            {
+                if (distanciaJugador <= 4)
+                {
+                    enemySpeed = 0;
+                    animacion.SetBool("isRun", false);
+                    AtackPlayer();
+                    }
+            }
         }
         else { RutaEnemigo(); }
          
+    }
+
+    void AtackPlayer()
+    {
+        int ataqueRapido = 20;
+        int ataqueFuerte = 30;
+        timeResetAtack -= Time.deltaTime;
+
+        if(timeResetAtack <= 0)
+        {
+            MovJugador.playerLife = MovJugador.playerLife - ataqueRapido;
+            ResetAtack();
+            Debug.Log("Tu salud es de " + MovJugador.playerLife);
+        }
+        
+    }
+
+    void ResetAtack()
+    {
+         timeResetAtack = timeAtack;
     }
 }
     
