@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LookPlayer : MonoBehaviour
-{
+{   
     public GameObject jugador;
     private float enemySpeedRotation = 50f;
     private Vector3 posJugador;
