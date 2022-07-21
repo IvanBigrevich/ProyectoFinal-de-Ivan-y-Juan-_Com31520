@@ -7,8 +7,8 @@ public class MovJugador : MonoBehaviour
     //Variables//
 
         public static int playerLife = 100;
-        public float speed = 10f;
-        public float speedRotation = 50f;
+        public float speed = 20f;
+        public float speedRotation = 200f;
         private float MovHorizontal;
         private float MovVertical;
         public Animator animator;
