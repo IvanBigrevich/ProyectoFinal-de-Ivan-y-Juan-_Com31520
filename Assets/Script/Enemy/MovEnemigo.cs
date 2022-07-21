@@ -87,7 +87,7 @@ public class MovEnemigo : MonoBehaviour
          
     }
 
-    void AtackPlayer()
+         void AtackPlayer()
     {
         int ataqueRapido = 20;
         int ataqueFuerte = 30;
