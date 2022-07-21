@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovJugador : MonoBehaviour
-{
+{       
+    //Variables//
+
+        public static int playerLife = 100;
         public float speed = 10f;
         public float speedRotation = 50f;
         private float MovHorizontal;
@@ -12,6 +15,7 @@ public class MovJugador : MonoBehaviour
 
         private void Start()
         {
+        Debug.Log("Tu salud es de " + playerLife);
         }
 
         void Update()
