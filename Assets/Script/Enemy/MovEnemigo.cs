@@ -90,7 +90,6 @@ public class MovEnemigo : MonoBehaviour
          void AtackPlayer()
     {
         int ataqueRapido = 20;
-        int ataqueFuerte = 30;
         timeResetAtack -= Time.deltaTime;
 
         if(timeResetAtack <= 0)

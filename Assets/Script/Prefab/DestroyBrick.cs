@@ -21,7 +21,6 @@ public class DestroyBrick : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {   
             Destroy(gameObject);
-            Debug.Log("Recogiste un Ladrillo");
         }
     }
 }
