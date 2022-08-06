@@ -6,22 +6,25 @@ public class MovJugador : MonoBehaviour
 {
     //Variables//
 
-    public static int playerLife = 100;
+    public static float playerLife = 20f;
+    public static float playerStamina = 100f;
     public float speed = 10f;
     public float speedRotation = 200f;
     private float MovHorizontal;
     private float MovVertical;
     public Animator animator;
-
+    public Vector3 posInicial;
 
     private void Start()
     {
+        posInicial = transform.position;
         Debug.Log("Tu salud es de " + playerLife);
     }
 
     void Update()
     {
         MoveSpeed();
+        Respawn();
     }
     void MoveSpeed()
     {
@@ -40,6 +43,15 @@ public class MovJugador : MonoBehaviour
             animator.SetBool("isRun", false);
         }
 
+    }
+
+    void Respawn()
+    {
+        if (playerLife <= 0)
+        {   
+            transform.position = posInicial;
+            playerLife = 100f;
+        }
     }
 
 } 
