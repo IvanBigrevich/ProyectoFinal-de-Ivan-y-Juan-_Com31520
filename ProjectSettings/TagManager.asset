@@ -6,6 +6,14 @@ TagManager:
   tags:
   - Recorrido
   - Wall
+  - Escalera 1
+  - Escalera 2
+  - Escalera 3
+  - Escalera 4
+  - Escalera Final
+  - Respawn 1
+  - Respawn 2
+  - Respawn 3
   layers:
   - Default
   - TransparentFX
