@@ -23,8 +23,8 @@ public class TriggerCry : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            audioSource.Play();
-            Debug.Log("Play");
+                audioSource.Play();
+                Debug.Log("Play");
             Destroy(gameObject, 2f);
         }
     }
