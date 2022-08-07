@@ -10,10 +10,4 @@ public class Sword : ScriptableObject
     public Sprite imagenSword;
     public string daño = "30";
     
-
-
-    public void MostrarInfo()
-    {
-        Debug.Log(nombre + ": ");
-    }
 }

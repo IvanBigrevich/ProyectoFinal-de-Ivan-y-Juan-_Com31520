@@ -16,13 +16,13 @@ public class Ui : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BarraStamina();
+        BarraSalud();
     }
 
     // Update is called once per frame
     void Update()
     {
-        BarraSalud();
-        BarraStamina();
         TogglePause();
     }
 
