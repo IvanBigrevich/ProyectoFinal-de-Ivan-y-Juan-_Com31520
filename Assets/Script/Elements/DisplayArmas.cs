@@ -4,7 +4,6 @@ public class DisplayArmas : MonoBehaviour
 {
 
     public Sword espada;
-    public Text textoDaño;
     public Image imagenEspada;
 
     // Start is called before the first frame update
