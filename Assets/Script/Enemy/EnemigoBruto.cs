@@ -9,7 +9,9 @@ public class EnemigoBruto : Enemigo
     float tiempo = 10f;
     float tiempoPatrullaje;
     public Animator animacion;
+    Animator daño;
     public Transform posJugador;
+    GameObject JugadorAtacado;
 
     public void Awake()
     {
@@ -19,8 +21,9 @@ public class EnemigoBruto : Enemigo
     }
     // Start is called before the first frame update
     void Start()
-    {
-        
+    {   
+        JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
+        daño = JugadorAtacado.GetComponent<Animator>();
         ResetAtack();
         RutaEnemigo();
         ResetearTiempoPatrulla();
@@ -104,9 +107,10 @@ public class EnemigoBruto : Enemigo
 
         if (timeResetAtack <= 0)
         {
-            MovJugador.playerLife = MovJugador.playerLife - ataqueRapido;
+            NuevoMovientoJugador.playerLife = NuevoMovientoJugador.playerLife - ataqueRapido;
             ResetAtack();
-            Debug.Log("Tu salud es de " + MovJugador.playerLife);
+            Debug.Log("Tu salud es de " + NuevoMovientoJugador.playerLife);
+            daño.SetBool("recibioImpacto", true);
         }
 
     }

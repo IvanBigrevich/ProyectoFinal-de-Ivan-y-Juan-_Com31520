@@ -14,6 +14,8 @@ TagManager:
   - Respawn 1
   - Respawn 2
   - Respawn 3
+  - Arco
+  - Enemigo
   layers:
   - Default
   - TransparentFX
@@ -23,7 +25,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - piso
   - 
   - 
   - 

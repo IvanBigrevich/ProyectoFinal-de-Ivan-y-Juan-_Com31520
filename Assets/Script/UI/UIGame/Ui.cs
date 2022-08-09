@@ -30,7 +30,7 @@ public class Ui : MonoBehaviour
     void BarraSalud()
     {
 
-        barraVida.fillAmount = MovJugador.playerLife / vidaMaxima;
+        barraVida.fillAmount = NuevoMovientoJugador.playerLife / vidaMaxima;
 
 
     }
@@ -38,13 +38,13 @@ public class Ui : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            MovJugador.playerStamina--;
-            barraStamina.fillAmount = MovJugador.playerStamina / staminaMaxima;
+            NuevoMovientoJugador.playerStamina--;
+            barraStamina.fillAmount = NuevoMovientoJugador.playerStamina / staminaMaxima;
         }
         else
         {
-            MovJugador.playerStamina++;
-            barraStamina.fillAmount = MovJugador.playerStamina / staminaMaxima;
+            NuevoMovientoJugador.playerStamina++;
+            barraStamina.fillAmount = NuevoMovientoJugador.playerStamina / staminaMaxima;
         }
 
     }
