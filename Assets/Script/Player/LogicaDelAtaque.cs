@@ -21,12 +21,12 @@ public class LogicaDelAtaque : MonoBehaviour
     {
           if(Input.GetButtonDown("Fire1"))
         {
-            jugadorAnim.SetBool("Ataque", true);
+            jugadorAnim.SetTrigger("Ataque");
 
-        }else
+        }/*else
         {
             jugadorAnim.SetBool("Ataque", false);
-        }
+        }*/
     }
 
     

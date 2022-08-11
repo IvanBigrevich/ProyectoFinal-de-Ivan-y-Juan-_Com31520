@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Joker
   m_EditorClassIdentifier: 
   nombreCarta: Joker
-  descripcionCarta: Comodin
+  descripcionCarta: Comodin en las Cartas Francesas
   dibujoCarta: {fileID: 21300000, guid: 258aa54b95fe0bc46870976c80680629, type: 3}
-  valorCarta: 50
