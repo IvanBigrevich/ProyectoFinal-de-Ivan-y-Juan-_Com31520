@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemigoBruto : Enemigo
 { 
-    float timeAtack = 5f;
+    float timeAtack = 3f;
     float timeResetAtack;
     float tiempo = 10f;
     float tiempoPatrullaje;
@@ -33,6 +33,7 @@ public class EnemigoBruto : Enemigo
     void Update()
     {
         PerseguirJugador();
+        DañoRecibido();
 
     }
     void RutaEnemigo()
@@ -111,13 +112,42 @@ public class EnemigoBruto : Enemigo
             ResetAtack();
             Debug.Log("Tu salud es de " + NuevoMovientoJugador.playerLife);
             daño.SetBool("recibioImpacto", true);
+            animacion.SetBool("AtaqueEnemigo", true);
         }
+        else
+        {
+            animacion.SetBool("AtaqueEnemigo", false);
+        }
+        
 
+    }
+
+    void DañoRecibido()
+    {
+        int ataqueJugador = 25;
+        float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
+         if (distanciaJugador <= 4 && Input.GetButtonDown("Fire1"))
+                {
+                    animacion.SetBool("RecibiendoDaño", true);
+                    vidaEnemigo -= ataqueJugador;
+                    Debug.Log("La vida actual del enemigo es " + vidaEnemigo);
+                }
     }
 
     void ResetAtack()
     {
         timeResetAtack = timeAtack;
+    }
+
+    void EnemigoMuerto()
+    {
+        if (vidaEnemigo <= 0)
+        {
+            animacion.SetBool("EnemigoMuerto", true);
+            
+           
+        }
+        
     }
 }
 
