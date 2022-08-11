@@ -128,7 +128,7 @@ public class EnemigoBruto : Enemigo
         float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
          if (distanciaJugador <= 4 && Input.GetButtonDown("Fire1"))
                 {
-                    animacion.SetBool("RecibiendoDaño", true);
+                    animacion.SetTrigger("RecibiendoDaño");
                     vidaEnemigo -= ataqueJugador;
                     Debug.Log("La vida actual del enemigo es " + vidaEnemigo);
                 }
