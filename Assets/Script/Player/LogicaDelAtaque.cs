@@ -14,7 +14,12 @@ public class LogicaDelAtaque : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+      AtaqueJugador();
+    }
+
+    public void AtaqueJugador()
+    {
+          if(Input.GetButtonDown("Fire1"))
         {
             jugadorAnim.SetBool("Ataque", true);
 
@@ -24,13 +29,5 @@ public class LogicaDelAtaque : MonoBehaviour
         }
     }
 
-    public void Ataca()
-    {
-
-    }
-
-    public void DejaDeAtacar()
-    {
-        
-    }
+    
 }
