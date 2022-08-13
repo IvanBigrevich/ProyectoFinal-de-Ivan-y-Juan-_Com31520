@@ -8,26 +8,31 @@ public class AtaqueEspada : MonoBehaviour
     GameObject enemigo;
     private GameObject jugador;
     private Animator animacion;
+    private Animator animacionEnemigo;
+
 
     private void Start()
-    { jugador = GameObject.FindGameObjectWithTag("Player");
+    {   jugador = GameObject.FindGameObjectWithTag("Player");
         animacion = jugador.GetComponent<Animator>();
+        enemigo = GameObject.FindGameObjectWithTag("Enemigo");
+        animacionEnemigo = enemigo.GetComponent<Animator>();
+
     }
 
     private void Update()
     {
         Ataque();
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnColissionExit(Collider other)
     {
-        if(collision.transform.name == "Enemy")
+        if (other.transform.name == "Enemy")
         {
             enemigo = GameObject.FindGameObjectWithTag("Enemigo");
             enemigo.GetComponent<EnemigoBruto>().vidaEnemigo = enemigo.GetComponent<EnemigoBruto>().vidaEnemigo - daño;
-            Debug.Log("esto fucniona");
+            animacionEnemigo.SetBool("Daño",true);
+
         }
     }
-
     void Ataque()
     {
         if (Input.GetMouseButton(0))

@@ -100,7 +100,7 @@ public class NuevoMovientoJugador : MonoBehaviour
         {
             if (playerLife <= 0)
             {
-                animacion.SetBool("JugadorMuerto", true);
+                //animacion.SetBool("JugadorMuerto", true);
                 transform.position = posInicial;
                 playerLife = 100f;
             }

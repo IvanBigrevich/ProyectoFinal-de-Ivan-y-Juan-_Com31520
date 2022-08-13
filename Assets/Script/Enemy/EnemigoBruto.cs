@@ -33,7 +33,7 @@ public class EnemigoBruto : Enemigo
     void Update()
     {
         PerseguirJugador();
-        DañoRecibido();
+        //DañoRecibido();
 
     }
     void RutaEnemigo()
@@ -55,6 +55,12 @@ public class EnemigoBruto : Enemigo
         {
             velocidadEnemigo = 0;
             animacion.SetBool("isRun", false);
+
+
+            if (other.CompareTag("Player"))
+            {
+                daño.SetBool("recibioImpacto", true);
+            }
         }
     }
 
@@ -85,7 +91,7 @@ public class EnemigoBruto : Enemigo
             transform.LookAt(posJugador);
             transform.position = Vector3.MoveTowards(transform.position, posJugador.position, velocidadEnemigo * Time.deltaTime);
             {
-                if (distanciaJugador <= 4)
+                if (distanciaJugador <= 5)
                 {
                     velocidadEnemigo = 0;
                     animacion.SetBool("isRun", false);
@@ -101,9 +107,9 @@ public class EnemigoBruto : Enemigo
         else { RutaEnemigo(); }
     }
 
-    void AtackPlayer()
+    public void AtackPlayer()
     {
-        float ataqueRapido = 20f;
+        float ataqueRapido = 25f;
         timeResetAtack -= Time.deltaTime;
 
         if (timeResetAtack <= 0)
@@ -111,7 +117,6 @@ public class EnemigoBruto : Enemigo
             NuevoMovientoJugador.playerLife = NuevoMovientoJugador.playerLife - ataqueRapido;
             ResetAtack();
             Debug.Log("Tu salud es de " + NuevoMovientoJugador.playerLife);
-            daño.SetBool("recibioImpacto", true);
             animacion.SetBool("AtaqueEnemigo", true);
         }
         else
@@ -122,17 +127,17 @@ public class EnemigoBruto : Enemigo
 
     }
 
-    void DañoRecibido()
-    {
-        int ataqueJugador = 25;
-        float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
-         if (distanciaJugador <= 4 && Input.GetButtonDown("Fire1"))
-                {
-                    animacion.SetTrigger("RecibiendoDaño");
-                    vidaEnemigo -= ataqueJugador;
-                    Debug.Log("La vida actual del enemigo es " + vidaEnemigo);
-                }
-    }
+    //void DañoRecibido()
+    //{
+    //    int ataqueJugador = 25;
+    //    float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
+    //     if (distanciaJugador <= 4 && Input.GetButtonDown("Fire1"))
+    //            {
+    //                animacion.SetTrigger("RecibiendoDaño");
+    //                vidaEnemigo -= ataqueJugador;
+    //                Debug.Log("La vida actual del enemigo es " + vidaEnemigo);
+    //            }
+    //}
 
     void ResetAtack()
     {
