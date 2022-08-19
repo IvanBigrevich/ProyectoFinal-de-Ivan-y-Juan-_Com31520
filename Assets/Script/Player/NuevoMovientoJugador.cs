@@ -18,13 +18,9 @@ public class NuevoMovientoJugador : MonoBehaviour
     [Header("Estadisticas Normales")]
     [SerializeField] private float velocidad;
     [SerializeField] private float velCorriendo;
-    [SerializeField] private float alturaDeSalto;
     [SerializeField] private float tiempoAlGirar;
 
-    [Header("Datos sobre el piso")]
-    [SerializeField] private Transform detectaPiso;
-    [SerializeField] private float distanciaPiso;
-    [SerializeField] private LayerMask mascaraPiso;
+
 
     
 
@@ -41,25 +37,9 @@ public class NuevoMovientoJugador : MonoBehaviour
     {
         Respawn();
         Movimiento();
-        Saltar();
+        
     }
-        void Saltar()
-        {
-            tocaPiso = Physics.CheckSphere(detectaPiso.position, distanciaPiso, mascaraPiso);
-
-            if (tocaPiso && velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
-
-            if (Input.GetButtonDown("Jump") && tocaPiso)
-            {
-                velocity.y = Mathf.Sqrt(alturaDeSalto * -2 * gravedad);
-            }
-
-            velocity.y += gravedad * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-        }
+      
 
         void Movimiento()
         {
