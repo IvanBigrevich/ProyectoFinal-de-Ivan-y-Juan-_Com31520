@@ -25,7 +25,7 @@ public class EnemigoBruto : Enemigo
         JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
         daño = JugadorAtacado.GetComponent<Animator>();
         ResetAtack();
-        RutaEnemigo();
+        /*RutaEnemigo();*/
         ResetearTiempoPatrulla();
     }
 
@@ -34,9 +34,10 @@ public class EnemigoBruto : Enemigo
     {
         PerseguirJugador();
         //DañoRecibido();
-
+        StopAtack();
+    
     }
-    void RutaEnemigo()
+    /*void RutaEnemigo()
     {
         if (velocidadEnemigo >= 8)
         {
@@ -48,7 +49,7 @@ public class EnemigoBruto : Enemigo
             transform.Translate(Vector3.forward * velocidadEnemigo * Time.deltaTime);
 
         }
-    }
+    }*/
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Recorrido")
@@ -104,7 +105,7 @@ public class EnemigoBruto : Enemigo
                 }
             }
         }
-        else { RutaEnemigo(); }
+        /*else { RutaEnemigo(); }*/
     }
 
     public void AtackPlayer()
@@ -117,12 +118,9 @@ public class EnemigoBruto : Enemigo
             NuevoMovientoJugador.playerLife = NuevoMovientoJugador.playerLife - ataqueRapido;
             ResetAtack();
             Debug.Log("Tu salud es de " + NuevoMovientoJugador.playerLife);
-            animacion.SetBool("AtaqueEnemigo", true);
+            animacion.SetTrigger("AtaqueEnemigo");
         }
-        else
-        {
-            animacion.SetBool("AtaqueEnemigo", false);
-        }
+      
         
 
     }
@@ -149,10 +147,18 @@ public class EnemigoBruto : Enemigo
         if (vidaEnemigo <= 0)
         {
             animacion.SetBool("EnemigoMuerto", true);
+            Destroy(gameObject, 2f);
             
            
         }
         
     }
+    void StopAtack()
+    {
+        if(NuevoMovientoJugador.playerLife <= 0)
+        {
+            animacion.SetBool("AtaqueEnemigo", false);
+            Debug.Log("dejo de actacar");   
+        }
+    }
 }
-

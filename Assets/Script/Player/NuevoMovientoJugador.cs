@@ -10,21 +10,14 @@ public class NuevoMovientoJugador : MonoBehaviour
     public static float playerStamina = 100f;
     private Vector3 posInicial;
     private float velocidadGiro;
-    private float gravedad = -9.81f;
-    private Vector3 velocity;
-    private bool tocaPiso;
     private Animator animacion;
 
     [Header("Estadisticas Normales")]
-    [SerializeField] private float velocidad;
+    public static float velocidad = 5;
     [SerializeField] private float velCorriendo;
     [SerializeField] private float tiempoAlGirar;
 
-
-
-    
-
-
+ 
     private void Start()
     {   
         controller = GetComponent<CharacterController>();
@@ -35,19 +28,18 @@ public class NuevoMovientoJugador : MonoBehaviour
 
     private void Update()
     {
-        Respawn();
         Movimiento();
-        
+        MuerteJugador();
     }
-      
+       
 
-        void Movimiento()
+      public void Movimiento()
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             Vector3 direccion = new Vector3(horizontal, 0, vertical).normalized;
 
-            if (direccion.magnitude <= 0)
+        if (direccion.magnitude <= 0)
             {
                 animacion.SetFloat("Movimientos", 0, 0.1f, Time.deltaTime);
                 animacion.SetBool("recibioImpacto", false);
@@ -72,21 +64,31 @@ public class NuevoMovientoJugador : MonoBehaviour
                 {
                     Vector3 mover = Quaternion.Euler(0, objetivoAngulo, 0) * Vector3.forward;
                     controller.Move(mover.normalized * velocidad * Time.deltaTime);
-                    animacion.SetFloat("Movimientos", 0.5f, 0.1f, Time.deltaTime);
+                    animacion.SetFloat("Movimientos", 0.3f, 0.1f, Time.deltaTime);
                 }
             }
         }
-        void Respawn()
+
+    void MuerteJugador()
+    {
+
+        if (playerLife <= 0)
         {
-            if (playerLife <= 0)
-            {
-                //animacion.SetBool("JugadorMuerto", true);
-                transform.position = posInicial;
-                playerLife = 100f;
-            }
+            animacion.SetBool("JugadorMuerto", true);
+            StartCoroutine("tiempoRespwan");
+
         }
+    }  
+    IEnumerator tiempoRespwan()
+    {
+        yield return new WaitForSeconds(4f);
+        Respawn();
+    }
+    void Respawn()
+    {
+        transform.position = posInicial;
+        playerLife = 100f;
+        animacion.SetBool("JugadorMuerto", false);
+    }
+
 }
-   
-
-
-
