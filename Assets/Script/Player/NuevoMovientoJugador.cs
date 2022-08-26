@@ -6,11 +6,12 @@ public class NuevoMovientoJugador : MonoBehaviour
 {
     private CharacterController controller;
     private GameObject camara;
-    public static float playerLife = 20f;
+    public static float playerLife = 50f;
     public static float playerStamina = 100f;
-    private Vector3 posInicial;
+    public Vector3 posInicial;
     private float velocidadGiro;
     private Animator animacion;
+    bool death;
 
     [Header("Estadisticas Normales")]
     public static float velocidad = 5;
@@ -23,12 +24,14 @@ public class NuevoMovientoJugador : MonoBehaviour
         controller = GetComponent<CharacterController>();
         camara = GameObject.FindGameObjectWithTag("MainCamera");
         animacion = GetComponent<Animator>();
-        posInicial = transform.position;
+        posInicial = new Vector3(transform.position.x,transform.position.y,transform.position.z);
     }
 
     private void Update()
     {
-        Movimiento();
+        if(death==false)Movimiento();
+        
+        
         MuerteJugador();
     }
        
@@ -68,27 +71,36 @@ public class NuevoMovientoJugador : MonoBehaviour
                 }
             }
         }
-
+bool isDead;
     void MuerteJugador()
     {
+        Debug.Log(isDead);
 
-        if (playerLife <= 0)
+        if (playerLife <= 0 && !isDead)
         {
-            animacion.SetBool("JugadorMuerto", true);
+            isDead=true;
+            death=true;
+            Debug.Log(playerLife);
             StartCoroutine("tiempoRespwan");
-
         }
+        
     }  
     IEnumerator tiempoRespwan()
     {
-        yield return new WaitForSeconds(4f);
+        animacion.SetBool("JugadorMuerto",true);
+        controller.enabled=false;
+        yield return new WaitForSeconds(15f);
         Respawn();
+        
     }
     void Respawn()
     {
+        isDead=false;
         transform.position = posInicial;
         playerLife = 100f;
         animacion.SetBool("JugadorMuerto", false);
+        controller.enabled=true;
+        death=false;
     }
 
 }
