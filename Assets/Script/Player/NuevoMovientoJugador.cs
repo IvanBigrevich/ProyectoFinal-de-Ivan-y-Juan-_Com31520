@@ -6,16 +6,15 @@ public class NuevoMovientoJugador : MonoBehaviour
 {
     private CharacterController controller;
     private GameObject camara;
-    public static float playerLife = 50f;
-    public static float playerStamina = 100f;
+    public static float playerLife = 100f;
     public Vector3 posInicial;
     private float velocidadGiro;
     private Animator animacion;
     bool death;
+    bool isDead;
 
     [Header("Estadisticas Normales")]
-    public static float velocidad = 5;
-    [SerializeField] private float velCorriendo;
+    public static float velocidad = 4;
     [SerializeField] private float tiempoAlGirar;
 
  
@@ -58,20 +57,22 @@ public class NuevoMovientoJugador : MonoBehaviour
 
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
+                    velocidad = 10;
                     Vector3 mover = Quaternion.Euler(0, objetivoAngulo, 0) * Vector3.forward;
-                    controller.Move(mover.normalized * velCorriendo * Time.deltaTime);
+                    controller.Move(mover.normalized * velocidad * Time.deltaTime);
                     animacion.SetFloat("Movimientos", 1f, 0.1f, Time.deltaTime);
 
                 }
                 else
                 {
+                    velocidad = 4;
                     Vector3 mover = Quaternion.Euler(0, objetivoAngulo, 0) * Vector3.forward;
                     controller.Move(mover.normalized * velocidad * Time.deltaTime);
                     animacion.SetFloat("Movimientos", 0.3f, 0.1f, Time.deltaTime);
                 }
             }
         }
-bool isDead;
+
     void MuerteJugador()
     {
         Debug.Log(isDead);
@@ -103,4 +104,12 @@ bool isDead;
         death=false;
     }
 
+    private void OnTriggerEnter(Collider col)
+    {
+       if (col.gameObject.tag == "FirstAid")
+        {
+            playerLife = 100f;
+        }
+    }
+  
 }

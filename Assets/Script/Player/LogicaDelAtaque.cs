@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class LogicaDelAtaque : MonoBehaviour
 {
-    [SerializeField] private Transform controladroGolpe;
+    [SerializeField] private Transform controladorGolpe;
     [SerializeField] private float radioGolpe;
     [SerializeField] private float dañoGolpe;
-    private Animator jugadorAtaque;
+    public Animator jugadorAtaque;
 
 
-    // Start is called before the first frame update
+ 
     void Start()
     {
-        jugadorAtaque = GetComponent<Animator>();
+        
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
 
-        if (Input.GetButtonDown("Fire1"))
+       /* if (Input.GetButtonDown("Fire1"))
         {
             Golpe();
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
+                AtaqueJugador();
             }
             else
             {
@@ -33,45 +34,43 @@ public class LogicaDelAtaque : MonoBehaviour
                 StartCoroutine("ResetearVelocidad");
 
             }
-        }
+        }*/
 
 
     }
 
-    private void Golpe()
+   /* private void Golpe()
     {
-        Collider[] objetos = Physics.OverlapSphere(controladroGolpe.position, radioGolpe);
+        Collider[] objetos = Physics.OverlapSphere(controladorGolpe.position, radioGolpe);
         foreach (Collider colision in objetos)
         {
             if (colision.CompareTag("Enemigo"))
             {
-                colision.transform.GetComponent<EnemigoNuevo>().TomarDaño(dañoGolpe);
+                colision.transform.GetComponent<EnemigoBruto>().DañoRecibido(dañoGolpe);
+                colision.transform.GetComponent<EnemigoFinal>().DañoRecibido(dañoGolpe);
             }
         }
-    }
+    }*/
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(controladroGolpe.position, radioGolpe);
+        Gizmos.DrawWireSphere(controladorGolpe.position, radioGolpe);
     }
-    //public void AtaqueJugador()
-    //{
-    //      if(Input.GetButtonDown("Fire1"))
-    //    {
-    //        jugadorAnim.SetTrigger("Ataque");
 
-    //    }/*else
-    //    {
-    //        jugadorAnim.SetBool("Ataque", false);
-    //    }*/
-    //}
-
+    public void AtaqueJugador()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            jugadorAtaque.SetTrigger("Ataque");
+        }
+       
     IEnumerator ResetearVelocidad()
     {
         yield return new WaitForSeconds(1f);
-        NuevoMovientoJugador.velocidad = 5;
+        NuevoMovientoJugador.velocidad = 4;
 
+    }
     }
 }
 
