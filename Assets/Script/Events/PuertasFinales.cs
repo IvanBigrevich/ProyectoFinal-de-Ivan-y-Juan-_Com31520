@@ -8,7 +8,7 @@ public class PuertasFinales : MonoBehaviour
  
     [SerializeField] public GameObject puertaAbierta; 
     [SerializeField] public GameObject puertaCerrada;
-    [SerializeField] public int vida;
+    [SerializeField] public float vida;
 
         
     void Start()

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemigoFinal : Enemigo
+public class EnemigoFinal : MonoBehaviour
 { 
     public string nombre;
-    public static int vidaFinal;
     public float velocidadEnemigo;
     float timeAtack = 3f;
     float timeResetAtack;
@@ -15,15 +14,14 @@ public class EnemigoFinal : Enemigo
     Animator daño;
     public Transform posJugador;
     GameObject JugadorAtacado;
-
+    public static float vidaFinal = 200;
+    
    
    
     // Start is called before the first frame update
     void Start()
     {   
-        nombre = "EnemigoFinal";
-        vidaFinal = 200;
-        velocidadEnemigo = 8f;
+             
         JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
         daño = JugadorAtacado.GetComponent<Animator>();
         ResetAtack();
@@ -146,9 +144,10 @@ public class EnemigoFinal : Enemigo
 
     void EnemigoMuerto()
     {
-        if (vidaEnemigo <= 0)
+        if (vidaFinal <= 0)
         {
             animacion.SetBool("EnemigoMuerto", true);
+            
             Destroy(gameObject, 2f);
             
            
@@ -163,4 +162,6 @@ public class EnemigoFinal : Enemigo
             Debug.Log("dejo de actacar");   
         }
     }
+
+    
 }

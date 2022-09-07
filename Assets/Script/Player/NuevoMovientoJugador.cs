@@ -10,6 +10,9 @@ public class NuevoMovientoJugador : MonoBehaviour
     public Vector3 posInicial;
     private float velocidadGiro;
     private Animator animacion;
+    public AudioSource sonidoMuerte;
+    public AudioClip sonidoMuertejugador;
+  
     bool death;
     bool isDead;
 
@@ -20,9 +23,11 @@ public class NuevoMovientoJugador : MonoBehaviour
  
     private void Start()
     {   
+        
         controller = GetComponent<CharacterController>();
         camara = GameObject.FindGameObjectWithTag("MainCamera");
         animacion = GetComponent<Animator>();
+       
         posInicial = new Vector3(transform.position.x,transform.position.y,transform.position.z);
     }
 
@@ -81,6 +86,7 @@ public class NuevoMovientoJugador : MonoBehaviour
         {
             isDead=true;
             death=true;
+            sonidoMuerte.PlayOneShot(sonidoMuertejugador, 0.5f);
             Debug.Log(playerLife);
             StartCoroutine("tiempoRespwan");
         }
@@ -104,11 +110,17 @@ public class NuevoMovientoJugador : MonoBehaviour
         death=false;
     }
 
+  
     private void OnTriggerEnter(Collider col)
     {
        if (col.gameObject.tag == "FirstAid")
         {
             playerLife = 100f;
+        }
+        if(col.CompareTag("arma"))
+        {
+            print("daño");
+            playerLife -= 15;
         }
     }
   

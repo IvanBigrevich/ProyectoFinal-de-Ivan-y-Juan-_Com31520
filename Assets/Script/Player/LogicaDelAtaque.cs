@@ -5,24 +5,23 @@ using UnityEngine;
 public class LogicaDelAtaque : MonoBehaviour
 {
     [SerializeField] private Transform controladorGolpe;
-    [SerializeField] private float radioGolpe;
-    [SerializeField] private float dañoGolpe;
     public Animator jugadorAtaque;
-
+    public AudioSource sonidoEspada;
+    public AudioClip sonidoChoque;
 
  
     void Start()
     {
-        
+       
     }
 
     
     void Update()
     {
-
-       /* if (Input.GetButtonDown("Fire1"))
+        
+        if (Input.GetButtonDown("Fire1"))
         {
-            Golpe();
+            
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 AtaqueJugador();
@@ -34,29 +33,38 @@ public class LogicaDelAtaque : MonoBehaviour
                 StartCoroutine("ResetearVelocidad");
 
             }
-        }*/
+        }
 
 
     }
+    void OnTriggerEnter(Collider col)
+    {
+          if (col.CompareTag("Enemigo"))
+            {
+                EnemigoBruto.vidaEnemigo -= 25;
+                sonidoEspada.PlayOneShot(sonidoChoque, 1f);
+            }
+            if (col.CompareTag("EnemigoFinal"))
+            {
+                EnemigoFinal.vidaFinal -= 25;
+                sonidoEspada.PlayOneShot(sonidoChoque, 1f);
+            }
+    }
 
-   /* private void Golpe()
+    /*private void Golpe()
     {
         Collider[] objetos = Physics.OverlapSphere(controladorGolpe.position, radioGolpe);
         foreach (Collider colision in objetos)
         {
-            if (colision.CompareTag("Enemigo"))
-            {
-                colision.transform.GetComponent<EnemigoBruto>().DañoRecibido(dañoGolpe);
-                colision.transform.GetComponent<EnemigoFinal>().DañoRecibido(dañoGolpe);
-            }
+          
         }
     }*/
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(controladorGolpe.position, radioGolpe);
-    }
+    }*/
 
     public void AtaqueJugador()
     {

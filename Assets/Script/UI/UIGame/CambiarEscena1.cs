@@ -24,19 +24,20 @@ public class CambiarEscena1 : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider col)
     {
-        if (collision.transform.tag == "Escalera 1")
+       if (col.gameObject.tag == "Escalera 1")
         {
+            Debug.Log("Estas Colisionando con la Escalera");
             SceneManager.LoadScene(2);
         }
         
-        if(collision.transform.tag == "Escalera 2")
+        if (col.gameObject.tag == "Escalera 2")
         {
             SceneManager.LoadScene(3);
         }
 
-       if(collision.transform.tag == "Escalera 3")
+       if (col.gameObject.tag == "Escalera 3")
         {
          
           pauseMenu.SetActive(true);

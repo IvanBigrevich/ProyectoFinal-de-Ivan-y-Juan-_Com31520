@@ -2,40 +2,116 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemigoBruto : Enemigo
+public class EnemigoBruto : MonoBehaviour
 { 
-    float timeAtack = 3f;
+    /*float timeAtack = 3f;
     float timeResetAtack;
     float tiempo = 10f;
     float tiempoPatrullaje;
     public Animator animacion;
     Animator daño;
     public Transform posJugador;
-    GameObject JugadorAtacado;
+    GameObject JugadorAtacado;*/
+    public static float vidaEnemigo = 100;
+    public int rutina;
+    public float cronometro;
+    public Animator ani;
+    public Quaternion angulo;
+    public float grado;
+    public GameObject target;
+    public bool atacando;
+    public AudioSource sonidoMuerte;
+    public AudioClip sonidoMuerteenemigo;
+    
 
-    public void Awake()
-    {
-        nombre = "Bruto";
-        vidaEnemigo = 100;
-        velocidadEnemigo = 8f;
-    }
+
+  
    
     void Start()
     {   
-        JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
+        ani = GetComponent<Animator>();
+        target = GameObject.Find("Godwin");
+       /* JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
         daño = JugadorAtacado.GetComponent<Animator>();
         ResetAtack();
-        /*RutaEnemigo();*/
-        ResetearTiempoPatrulla();
+        RutaEnemigo();
+        ResetearTiempoPatrulla();*/
     }
 
     
     void Update()
     {
-        PerseguirJugador();
-        DañoRecibido();
-        StopAtack();
+      Comportamiento_Enemigo();
+      /*  PerseguirJugador();*/
+        EnemigoMuerto();
+       /* StopAtack();*/
     
+    }
+
+    public void Comportamiento_Enemigo()
+    {   if(Vector3.Distance(transform.position, target.transform.position) > 5)
+        {
+        ani.SetBool("run", false);
+        cronometro += 1 * Time.deltaTime;
+        if (cronometro >=4)
+        {
+            rutina = Random.Range (0, 2);
+            cronometro = 0;
+        }
+        switch(rutina)
+        {
+            case 0:
+                ani.SetBool("walk", false);
+                break;
+            case 1:
+                grado = Random.Range(0,360);
+                angulo = Quaternion.Euler(0,grado,0);
+                rutina++;
+                break;
+            case 2:
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, angulo, 0.5f);
+                transform.Translate(Vector3.forward * 1 * Time.deltaTime);
+                ani.SetBool("walk", true);
+                break;
+        }
+        }
+        else
+        {
+            if(Vector3.Distance(transform.position, target.transform.position) > 5 && !atacando)
+            {
+            var lookPos = target.transform.position - transform.position;
+            lookPos.y = 0;
+            var rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
+            ani.SetBool("walk", false);
+            ani.SetBool("run", true);
+            transform.Translate(Vector3.forward * 2 * Time.deltaTime);
+            ani.SetBool("attack", false);
+            }
+            else
+            {
+                ani.SetBool("walk", false);
+                ani.SetBool("run", false);
+                ani.SetBool("attack", true);
+                atacando = true;
+            }
+        }
+    }
+
+    public void Final_ani()
+    {
+        ani.SetBool("attack", false);
+        atacando = false;
+    }
+
+      private void OnTriggerEnter(Collider col)
+    {
+    
+        if(col.CompareTag("sword"))
+        {
+            print("daño");
+            vidaEnemigo -= 25;
+        }
     }
     /*void RutaEnemigo()
     {
@@ -49,7 +125,7 @@ public class EnemigoBruto : Enemigo
             transform.Translate(Vector3.forward * velocidadEnemigo * Time.deltaTime);
 
         }
-    }*/
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Recorrido")
@@ -144,25 +220,26 @@ public class EnemigoBruto : Enemigo
     void ResetAtack()
     {
         timeResetAtack = timeAtack;
-    }
+    }*/
 
     void EnemigoMuerto()
     {
         if (vidaEnemigo <= 0)
         {
-            animacion.SetBool("EnemigoMuerto", true);
+            sonidoMuerte.PlayOneShot(sonidoMuerteenemigo, 0.5f);
+            ani.SetBool("enemigoMuerto", true);
             Destroy(gameObject, 2f);
             
            
         }
         
     }
-    void StopAtack()
+   /* void StopAtack()
     {
         if(NuevoMovientoJugador.playerLife <= 0)
         {
             animacion.SetBool("AtaqueEnemigo", false);
             Debug.Log("dejo de actacar");   
         }
-    }
+    }*/
 }
