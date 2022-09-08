@@ -47,26 +47,23 @@ public class NuevoMovientoJugador : MonoBehaviour
             Vector3 direccion = new Vector3(horizontal, 0, vertical).normalized;
 
         if (direccion.magnitude <= 0)
-            {
-                animacion.SetFloat("Movimientos", 0, 0.1f, Time.deltaTime);
-                animacion.SetBool("recibioImpacto", false);
-                animacion.SetBool("atackSword", false);
+        {
+            animacion.SetFloat("Movimientos", 0, 0.1f, Time.deltaTime);
+            animacion.SetBool("recibioImpacto", false);
+            animacion.SetBool("atackSword", false);
         }
-
 
         if (direccion.magnitude >= 0.1f)
             {
                 float objetivoAngulo = Mathf.Atan2(direccion.x, direccion.z) * Mathf.Rad2Deg + camara.transform.eulerAngles.y;
                 float angulo = Mathf.SmoothDampAngle(transform.eulerAngles.y, objetivoAngulo, ref velocidadGiro, tiempoAlGirar);
                 transform.rotation = Quaternion.Euler(0, angulo, 0);
-
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     velocidad = 10;
                     Vector3 mover = Quaternion.Euler(0, objetivoAngulo, 0) * Vector3.forward;
                     controller.Move(mover.normalized * velocidad * Time.deltaTime);
                     animacion.SetFloat("Movimientos", 1f, 0.1f, Time.deltaTime);
-
                 }
                 else
                 {
@@ -90,7 +87,6 @@ public class NuevoMovientoJugador : MonoBehaviour
             Debug.Log(playerLife);
             StartCoroutine("tiempoRespwan");
         }
-        
     }  
     IEnumerator tiempoRespwan()
     {
@@ -110,7 +106,6 @@ public class NuevoMovientoJugador : MonoBehaviour
         death=false;
     }
 
-  
     private void OnTriggerEnter(Collider col)
     {
        if (col.gameObject.tag == "FirstAid")
@@ -119,9 +114,11 @@ public class NuevoMovientoJugador : MonoBehaviour
         }
         if(col.CompareTag("arma"))
         {
-            print("daño");
-            playerLife -= 15;
+            playerLife -= 5;
+        }
+        if(col.CompareTag("arma2"))
+        {
+            playerLife -= 10;
         }
     }
-  
 }

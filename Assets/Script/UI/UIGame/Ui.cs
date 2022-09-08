@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Ui : MonoBehaviour
 {
     public Image barraVida;
@@ -10,14 +11,11 @@ public class Ui : MonoBehaviour
     private bool pauseActive;
     public GameObject pauseMenu;
     public GameObject mensajeIncial;
-
-
    
     void Start()
     {
         
     }
-
     
     void Update()
     {
@@ -32,13 +30,8 @@ public class Ui : MonoBehaviour
         {
            barraVida.fillAmount = vidaActual / vidaMaxima;
         }
-
-
     }
  
-
-    
-
     void TogglePause()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -69,4 +62,3 @@ public class Ui : MonoBehaviour
         pauseActive = true;
     }
 }
-

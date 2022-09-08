@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class PuertasFinales : MonoBehaviour
 {
-
- 
     [SerializeField] public GameObject puertaAbierta; 
     [SerializeField] public GameObject puertaCerrada;
     [SerializeField] public float vida;
-
         
     void Start()
     {
@@ -34,5 +31,4 @@ public class PuertasFinales : MonoBehaviour
         puertaAbierta.SetActive(true);
         puertaCerrada.SetActive(false);
     }
-
 }

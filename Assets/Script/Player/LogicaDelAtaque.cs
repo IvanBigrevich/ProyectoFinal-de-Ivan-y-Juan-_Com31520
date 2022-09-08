@@ -8,20 +8,16 @@ public class LogicaDelAtaque : MonoBehaviour
     public Animator jugadorAtaque;
     public AudioSource sonidoEspada;
     public AudioClip sonidoChoque;
-
  
     void Start()
     {
        
     }
-
-    
+   
     void Update()
     {
-        
         if (Input.GetButtonDown("Fire1"))
         {
-            
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 AtaqueJugador();
@@ -31,11 +27,8 @@ public class LogicaDelAtaque : MonoBehaviour
                 jugadorAtaque.SetTrigger("Ataque");
                 NuevoMovientoJugador.velocidad = 0;
                 StartCoroutine("ResetearVelocidad");
-
             }
         }
-
-
     }
     void OnTriggerEnter(Collider col)
     {
@@ -51,36 +44,11 @@ public class LogicaDelAtaque : MonoBehaviour
             }
     }
 
-    /*private void Golpe()
-    {
-        Collider[] objetos = Physics.OverlapSphere(controladorGolpe.position, radioGolpe);
-        foreach (Collider colision in objetos)
-        {
-          
-        }
-    }*/
-
-    /*private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(controladorGolpe.position, radioGolpe);
-    }*/
-
     public void AtaqueJugador()
     {
         if(Input.GetButtonDown("Fire1"))
         {
             jugadorAtaque.SetTrigger("Ataque");
         }
-       
-    IEnumerator ResetearVelocidad()
-    {
-        yield return new WaitForSeconds(1f);
-        NuevoMovientoJugador.velocidad = 4;
-
-    }
     }
 }
-
-
-

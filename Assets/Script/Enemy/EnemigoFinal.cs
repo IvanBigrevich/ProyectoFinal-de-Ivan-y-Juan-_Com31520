@@ -4,164 +4,83 @@ using UnityEngine;
 
 public class EnemigoFinal : MonoBehaviour
 { 
-    public string nombre;
-    public float velocidadEnemigo;
-    float timeAtack = 3f;
-    float timeResetAtack;
-    float tiempo = 10f;
-    float tiempoPatrullaje;
-    public Animator animacion;
-    Animator daño;
-    public Transform posJugador;
-    GameObject JugadorAtacado;
-    public static float vidaFinal = 200;
-    
-   
-   
-    // Start is called before the first frame update
+   public static float vidaFinal = 300;
+   public Animator ani;
+   public GameObject target;
+   float timeToAttack = 2f;
+   bool canAttack; 
+   public AudioSource sonidoMuerte;
+   public AudioClip sonidoMuerteenemigo;
+   public AudioClip sonidoChoque;
+      
     void Start()
     {   
-             
-        JugadorAtacado = GameObject.FindGameObjectWithTag("Player");
-        daño = JugadorAtacado.GetComponent<Animator>();
-        ResetAtack();
-        /*RutaEnemigo();*/
-        ResetearTiempoPatrulla();
+        ani = GetComponent<Animator>();
+        target = GameObject.Find("Godwin");
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
-        PerseguirJugador();
-        //DañoRecibido();
-        StopAtack();
+        Comportamiento_Enemigo();
+        EnemigoMuerto();
+    }
+
+    public void Comportamiento_Enemigo()
+    {           
+            if(Vector3.Distance(transform.position, target.transform.position) > 4 && Vector3.Distance(transform.position, target.transform.position) < 10)
+            {
+            var lookPos = target.transform.position - transform.position;
+            lookPos.y = 0;
+            var rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
+            ani.SetBool("walk", false);
+            ani.SetBool("run", true);
+            transform.Translate(Vector3.forward * 8 * Time.deltaTime);
+            }
+            else if(Vector3.Distance(transform.position, target.transform.position) <= 4)
+            {
+                Debug.Log("puedo atacar");
+                ani.SetBool("walk", false);
+                ani.SetBool("run", false);
+                CanAttack();
+                if(canAttack == true)
+                {
+                   ani.SetTrigger("attack1");
+                   sonidoMuerte.PlayOneShot(sonidoChoque, 1f);
+                }
+            }
+    }
     
-    }
-    /*void RutaEnemigo()
-    {
-        if (velocidadEnemigo >= 8)
+    void CanAttack()
         {
-            transform.Translate(Vector3.forward * velocidadEnemigo * Time.deltaTime);
-            animacion.SetBool("isRun", true);
-        }
-        else
-        {
-            transform.Translate(Vector3.forward * velocidadEnemigo * Time.deltaTime);
-
-        }
-    }*/
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Recorrido")
-        {
-            velocidadEnemigo = 0;
-            animacion.SetBool("isRun", false);
-
-
-            if (other.CompareTag("Player"))
+            timeToAttack -= Time.deltaTime;
+            if(timeToAttack <= 0)
             {
-                daño.SetBool("recibioImpacto", true);
+                canAttack = true;
+                timeToAttack = 2f;
+            }
+            else
+            {
+                canAttack = false;
             }
         }
-    }
-
-    private void OnTriggerStay(Collider other)
+   
+      private void OnTriggerEnter(Collider col)
     {
-        if (other.gameObject.tag == "Finish")
+        if(col.CompareTag("sword"))
         {
-            tiempoPatrullaje -= Time.deltaTime;
-            if (tiempoPatrullaje <= 7)
-            {
-                transform.Rotate(new Vector3(0, -180, 0));
-                animacion.SetBool("isRun", true);
-                ResetearTiempoPatrulla();
-                velocidadEnemigo = 7f;
-            }
+            vidaFinal -= 25;
         }
-    }
-    void ResetearTiempoPatrulla()
-    {
-        tiempoPatrullaje = tiempo;
-    }
-    void PerseguirJugador()
-    {
-        float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
-
-        if (distanciaJugador <= 15)
-        {
-            transform.LookAt(posJugador);
-            transform.position = Vector3.MoveTowards(transform.position, posJugador.position, velocidadEnemigo * Time.deltaTime);
-            {
-                if (distanciaJugador <= 5)
-                {
-                    velocidadEnemigo = 0;
-                    animacion.SetBool("isRun", false);
-                    AtackPlayer();
-                }
-                else
-                {
-                    velocidadEnemigo = 8f;
-                    animacion.SetBool("isRun", true);
-                }
-            }
-        }
-        /*else { RutaEnemigo(); }*/
-    }
-
-    public void AtackPlayer()
-    {
-        float ataqueRapido = 25f;
-        timeResetAtack -= Time.deltaTime;
-
-        if (timeResetAtack <= 0)
-        {
-            NuevoMovientoJugador.playerLife = NuevoMovientoJugador.playerLife - ataqueRapido;
-            ResetAtack();
-            Debug.Log("Tu salud es de " + NuevoMovientoJugador.playerLife);
-            animacion.SetTrigger("AtaqueEnemigo");
-        }
-      
-        
-
-    }
-
-    //void DañoRecibido()
-    //{
-    //    int ataqueJugador = 25;
-    //    float distanciaJugador = Vector3.Distance(transform.position, posJugador.position);
-    //     if (distanciaJugador <= 4 && Input.GetButtonDown("Fire1"))
-    //            {
-    //                animacion.SetTrigger("RecibiendoDaño");
-    //                vidaEnemigo -= ataqueJugador;
-    //                Debug.Log("La vida actual del enemigo es " + vidaEnemigo);
-    //            }
-    //}
-
-    void ResetAtack()
-    {
-        timeResetAtack = timeAtack;
     }
 
     void EnemigoMuerto()
     {
         if (vidaFinal <= 0)
         {
-            animacion.SetBool("EnemigoMuerto", true);
-            
+            sonidoMuerte.PlayOneShot(sonidoMuerteenemigo, 0.5f);
+            ani.SetBool("enemigoMuerto", true);
             Destroy(gameObject, 2f);
-            
-           
-        }
-        
-    }
-    void StopAtack()
-    {
-        if(NuevoMovientoJugador.playerLife <= 0)
-        {
-            animacion.SetBool("AtaqueEnemigo", false);
-            Debug.Log("dejo de actacar");   
         }
     }
-
-    
 }

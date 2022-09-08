@@ -13,6 +13,8 @@ TagManager:
   - EnemigoFinal
   - FirstAid
   - arma
+  - sword
+  - arma2
   layers:
   - Default
   - TransparentFX
