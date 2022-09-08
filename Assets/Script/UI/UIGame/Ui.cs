@@ -2,53 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Ui : MonoBehaviour
 {
     public Image barraVida;
-    public Image barraStamina;
+    public float vidaActual;
     public float vidaMaxima = 100f;
-    public float staminaMaxima = 100f;
     private bool pauseActive;
     public GameObject pauseMenu;
     public GameObject mensajeIncial;
-
-
-    // Start is called before the first frame update
+   
     void Start()
     {
         
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        BarraStamina();
         BarraSalud();
         TogglePause();
     }
 
-    void BarraSalud()
+    public void BarraSalud()
     {
-
-        barraVida.fillAmount = NuevoMovientoJugador.playerLife / vidaMaxima;
-
-
-    }
-    void BarraStamina()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
+        vidaActual = NuevoMovientoJugador.playerLife;
+        if(Time.timeScale != 0)
         {
-            NuevoMovientoJugador.playerStamina--;
-            barraStamina.fillAmount = NuevoMovientoJugador.playerStamina / staminaMaxima;
+           barraVida.fillAmount = vidaActual / vidaMaxima;
         }
-        else
-        {
-            NuevoMovientoJugador.playerStamina++;
-            barraStamina.fillAmount = NuevoMovientoJugador.playerStamina / staminaMaxima;
-        }
-
     }
-
+ 
     void TogglePause()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -79,4 +62,3 @@ public class Ui : MonoBehaviour
         pauseActive = true;
     }
 }
-

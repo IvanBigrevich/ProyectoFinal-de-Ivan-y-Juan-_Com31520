@@ -4,76 +4,51 @@ using UnityEngine;
 
 public class LogicaDelAtaque : MonoBehaviour
 {
-    [SerializeField] private Transform controladroGolpe;
-    [SerializeField] private float radioGolpe;
-    [SerializeField] private float dañoGolpe;
-    private Animator jugadorAtaque;
-
-
-    // Start is called before the first frame update
+    [SerializeField] private Transform controladorGolpe;
+    public Animator jugadorAtaque;
+    public AudioSource sonidoEspada;
+    public AudioClip sonidoChoque;
+ 
     void Start()
     {
-        jugadorAtaque = GetComponent<Animator>();
+       
     }
-
-    // Update is called once per frame
+   
     void Update()
     {
-
         if (Input.GetButtonDown("Fire1"))
         {
-            Golpe();
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
+                AtaqueJugador();
             }
             else
             {
                 jugadorAtaque.SetTrigger("Ataque");
                 NuevoMovientoJugador.velocidad = 0;
                 StartCoroutine("ResetearVelocidad");
-
             }
         }
-
-
     }
-
-    private void Golpe()
+    void OnTriggerEnter(Collider col)
     {
-        Collider[] objetos = Physics.OverlapSphere(controladroGolpe.position, radioGolpe);
-        foreach (Collider colision in objetos)
-        {
-            if (colision.CompareTag("Enemigo"))
+          if (col.CompareTag("Enemigo"))
             {
-                colision.transform.GetComponent<EnemigoNuevo>().TomarDaño(dañoGolpe);
+                EnemigoBruto.vidaEnemigo -= 25;
+                sonidoEspada.PlayOneShot(sonidoChoque, 1f);
             }
+            if (col.CompareTag("EnemigoFinal"))
+            {
+                EnemigoFinal.vidaFinal -= 25;
+                sonidoEspada.PlayOneShot(sonidoChoque, 1f);
+            }
+    }
+
+    public void AtaqueJugador()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            jugadorAtaque.SetTrigger("Ataque");
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(controladroGolpe.position, radioGolpe);
-    }
-    //public void AtaqueJugador()
-    //{
-    //      if(Input.GetButtonDown("Fire1"))
-    //    {
-    //        jugadorAnim.SetTrigger("Ataque");
-
-    //    }/*else
-    //    {
-    //        jugadorAnim.SetBool("Ataque", false);
-    //    }*/
-    //}
-
-    IEnumerator ResetearVelocidad()
-    {
-        yield return new WaitForSeconds(1f);
-        NuevoMovientoJugador.velocidad = 5;
-
     }
 }
-
-
-
