@@ -9,9 +9,10 @@ public class NuevoMovientoJugador : MonoBehaviour
     public static float playerLife = 100f;
     public Vector3 posInicial;
     private float velocidadGiro;
-    private Animator animacion;
+    public Animator animacion;
     public AudioSource sonidoMuerte;
     public AudioClip sonidoMuertejugador;
+    public AudioClip sonidoDañoJugador;
   
     bool death;
     bool isDead;
@@ -49,8 +50,6 @@ public class NuevoMovientoJugador : MonoBehaviour
         if (direccion.magnitude <= 0)
         {
             animacion.SetFloat("Movimientos", 0, 0.1f, Time.deltaTime);
-            animacion.SetBool("recibioImpacto", false);
-            animacion.SetBool("atackSword", false);
         }
 
         if (direccion.magnitude >= 0.1f)
@@ -77,18 +76,15 @@ public class NuevoMovientoJugador : MonoBehaviour
 
     void MuerteJugador()
     {
-        Debug.Log(isDead);
-
         if (playerLife <= 0 && !isDead)
         {
             isDead=true;
             death=true;
             sonidoMuerte.PlayOneShot(sonidoMuertejugador, 0.5f);
-            Debug.Log(playerLife);
-            StartCoroutine("tiempoRespwan");
+            StartCoroutine("tiempoRespawn");
         }
     }  
-    IEnumerator tiempoRespwan()
+    IEnumerator tiempoRespawn()
     {
         animacion.SetBool("JugadorMuerto",true);
         controller.enabled=false;
@@ -115,10 +111,14 @@ public class NuevoMovientoJugador : MonoBehaviour
         if(col.CompareTag("arma"))
         {
             playerLife -= 5;
+            sonidoMuerte.PlayOneShot(sonidoDañoJugador, 0.5f);
+            animacion.SetTrigger("ReciboAtaque");
         }
         if(col.CompareTag("arma2"))
         {
             playerLife -= 10;
+            sonidoMuerte.PlayOneShot(sonidoDañoJugador, 0.5f);
+            animacion.SetTrigger("ReciboAtaque");
         }
     }
 }

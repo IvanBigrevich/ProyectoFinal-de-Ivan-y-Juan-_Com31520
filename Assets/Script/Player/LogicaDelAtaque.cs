@@ -26,7 +26,7 @@ public class LogicaDelAtaque : MonoBehaviour
             {
                 jugadorAtaque.SetTrigger("Ataque");
                 NuevoMovientoJugador.velocidad = 0;
-                StartCoroutine("ResetearVelocidad");
+                
             }
         }
     }

@@ -27,7 +27,6 @@ public class CambiarEscena1 : MonoBehaviour
   {
     if (col.gameObject.tag == "Escalera 1")
     {
-      Debug.Log("Estas Colisionando con la Escalera");
       SceneManager.LoadScene(2);
     }
         

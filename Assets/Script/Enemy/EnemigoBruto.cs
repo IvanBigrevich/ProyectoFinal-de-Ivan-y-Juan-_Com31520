@@ -12,6 +12,7 @@ public class EnemigoBruto : MonoBehaviour
    public AudioSource sonidoMuerte;
    public AudioClip sonidoMuerteenemigo;
    public AudioClip sonidoChoque;
+   public AudioClip sonidoDañoEnemy;
       
     void Start()
     {   
@@ -40,7 +41,6 @@ public class EnemigoBruto : MonoBehaviour
             }
             else if(Vector3.Distance(transform.position, target.transform.position) <= 4)
             {
-                Debug.Log("puedo atacar");
                 ani.SetBool("walk", false);
                 ani.SetBool("run", false);
                 CanAttack();
@@ -70,7 +70,9 @@ public class EnemigoBruto : MonoBehaviour
     {
         if(col.CompareTag("sword"))
         {
-            vidaEnemigo -= 25;
+            ani.SetTrigger("recibeGolpe");
+            sonidoMuerte.PlayOneShot(sonidoDañoEnemy, 0.5f);
+            vidaEnemigo -= 15;
         }
     }
 
