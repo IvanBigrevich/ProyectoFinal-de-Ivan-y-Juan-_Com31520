@@ -13,7 +13,7 @@ public class EnemigoFinal : MonoBehaviour
    public AudioClip sonidoMuerteenemigo;
    public AudioClip sonidoChoque;
    public AudioClip sonidoDañoEnemy;
-      
+        
     void Start()
     {   
         ani = GetComponent<Animator>();

@@ -13,7 +13,7 @@ public class NuevoMovientoJugador : MonoBehaviour
     public AudioSource sonidoMuerte;
     public AudioClip sonidoMuertejugador;
     public AudioClip sonidoDañoJugador;
-  
+      
     bool death;
     bool isDead;
 

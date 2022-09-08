@@ -13,7 +13,7 @@ public class EnemigoBruto : MonoBehaviour
    public AudioClip sonidoMuerteenemigo;
    public AudioClip sonidoChoque;
    public AudioClip sonidoDañoEnemy;
-      
+         
     void Start()
     {   
         ani = GetComponent<Animator>();
@@ -48,6 +48,7 @@ public class EnemigoBruto : MonoBehaviour
                 {
                    ani.SetTrigger("attack1");
                    sonidoMuerte.PlayOneShot(sonidoChoque, 1f);
+                   
                 }
             }
     }
